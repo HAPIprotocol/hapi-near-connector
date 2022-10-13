@@ -8,7 +8,7 @@ Rust library for using HAPI protocol in cmart contracts on NEAR.
 """
 readme = "README.md"
 categories = ["wasm"]
-license = "LICENSE"
+license-file = "LICENSE"
 repository = "https://github.com/HAPIprotocol/hapi-near-connector"
 homepage = "https://hapi.one"
 documentation = "https://hapi-one.gitbook.io/"
