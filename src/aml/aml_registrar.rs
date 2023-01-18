@@ -16,10 +16,8 @@ pub enum Category {
     MerchantService,
     // Mining pool
     MiningPool,
-    // Low risk exchange - Exchange with high KYC standards
-    LowRiskExchange,
-    // Medium risk exchange
-    MediumRiskExchange,
+    // Exchange
+    Exchange,
     // DeFi application
     DeFi,
     // OTC Broker
