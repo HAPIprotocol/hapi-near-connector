@@ -23,3 +23,7 @@ ___________
 - remove_category - Removes category from aml conditions.
 
 - assert_risk - Checks the category according to the set level of risk. If the risk level is not set for this category, it checks the All category.
+
+- get_aml_conditions - Returns reference to UnorderedMap of added categories with accepted risk levels.
+
+- check_risk -  Returns true if the address is risky or false if not.

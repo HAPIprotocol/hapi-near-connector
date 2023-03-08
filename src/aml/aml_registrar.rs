@@ -3,6 +3,8 @@ use near_sdk::collections::UnorderedMap;
 use near_sdk::{AccountId, BorshStorageKey};
 use serde::{Deserialize, Serialize};
 
+use super::CategoryRisk;
+
 #[derive(BorshDeserialize, BorshSerialize, Serialize, Deserialize, PartialEq, Eq, Debug)]
 #[serde(crate = "near_sdk::serde")]
 pub enum Category {
@@ -64,7 +66,9 @@ pub struct AML {
 }
 
 pub trait AmlManager {
-    fn get_aml(&self) -> (&AccountId, Vec<(Category, RiskScore)>);
+    fn get_aml(&self) -> (&AccountId, Vec<CategoryRisk>);
+
+    fn get_aml_conditions(&self) -> &UnorderedMap<Category, RiskScore>;
 
     fn update_account_id(&mut self, aml_account_id: AccountId);
 
@@ -79,11 +83,11 @@ impl AmlManager for AML {
     ///
     /// ```
     /// use near_sdk::{AccountId, collections::UnorderedMap};
-    /// use hapi::aml::*;
+    /// use hapi_near_connector::aml::*;
     ///
     /// let aml_account :AccountId = AccountId::new_unchecked("aml".to_string());
     ///
-    /// let aml:AML = AML::new(aml_account, Category::All, MAX_RISK_LEVEL);
+    /// let aml:AML = AML::new(aml_account, MAX_RISK_LEVEL/2);
     /// println!("{:?}", aml.get_aml());
     /// ```
     fn get_aml(&self) -> (&AccountId, Vec<(Category, RiskScore)>) {
@@ -96,17 +100,34 @@ impl AmlManager for AML {
         )
     }
 
+    /// Returns reference to UnorderedMap of added categories with accepted risk levels.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use near_sdk::{AccountId, collections::UnorderedMap};
+    /// use hapi_near_connector::aml::*;
+    ///
+    /// let aml_account :AccountId = AccountId::new_unchecked("aml".to_string());
+    ///
+    /// let aml:AML = AML::new(aml_account, MAX_RISK_LEVEL/2);
+    /// println!("{:?}", aml.get_aml_conditions());
+    /// ```
+    fn get_aml_conditions(&self) -> &UnorderedMap<Category, RiskScore> {
+        &self.aml_conditions
+    }
+
     /// Updates account id of aml service.
     ///
     /// # Examples
     ///
     /// ```
     /// use near_sdk::{AccountId, collections::UnorderedMap};
-    /// use hapi::aml::*;
+    /// use hapi_near_connector::aml::*;
     ///
     /// let aml_account :AccountId = AccountId::new_unchecked("aml".to_string());
     ///
-    /// let mut aml:AML = AML::new(aml_account, Category::All, MAX_RISK_LEVEL);
+    /// let mut aml:AML = AML::new(aml_account, MAX_RISK_LEVEL/2);
     ///
     /// let new_aml_account :AccountId = AccountId::new_unchecked("new_aml".to_string());
     /// aml.update_account_id(new_aml_account.clone());
@@ -124,15 +145,15 @@ impl AmlManager for AML {
     ///
     /// ```
     /// use near_sdk::{AccountId, collections::UnorderedMap};
-    /// use hapi::aml::*;
+    /// use hapi_near_connector::aml::*;
     ///
     /// let aml_account :AccountId = AccountId::new_unchecked("aml".to_string());
     ///
-    /// let mut aml:AML = AML::new(aml_account, Category::All, MAX_RISK_LEVEL);
+    /// let mut aml:AML = AML::new(aml_account, MAX_RISK_LEVEL/2);
     ///
     /// aml.update_category(Category::Scam, 6);
     ///
-    /// assert_eq!(aml.aml_conditions.get(&Category::Scam).unwrap(), 6);
+    /// assert_eq!(aml.get_aml_conditions().get(&Category::Scam).unwrap(), 6);
     /// ```
     fn update_category(&mut self, category: Category, accepted_risk_score: RiskScore) {
         assert!(
@@ -149,16 +170,16 @@ impl AmlManager for AML {
     ///
     /// ```
     /// use near_sdk::{AccountId, collections::UnorderedMap};
-    /// use hapi::aml::*;
+    /// use hapi_near_connector::aml::*;
     ///
     /// let aml_account :AccountId = AccountId::new_unchecked("aml".to_string());
     ///
-    /// let mut aml:AML = AML::new(aml_account, Category::All, MAX_RISK_LEVEL);
+    /// let mut aml:AML = AML::new(aml_account, MAX_RISK_LEVEL/2);
     ///
     /// aml.update_category(Category::Scam, 6);
     /// aml.remove_category(Category::Scam);
     ///
-    /// assert!(aml.aml_conditions.get(&Category::Scam).is_none());
+    /// assert!(aml.get_aml_conditions().get(&Category::Scam).is_none());
     /// ```
     fn remove_category(&mut self, category: Category) {
         assert!(category != Category::All);
