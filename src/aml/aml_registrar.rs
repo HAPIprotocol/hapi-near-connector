@@ -85,9 +85,9 @@ impl AmlManager for AML {
     /// use near_sdk::{AccountId, collections::UnorderedMap};
     /// use hapi_near_connector::aml::*;
     ///
-    /// let aml_account :AccountId = AccountId::new_unchecked("aml".to_string());
+    /// let aml_account: AccountId = AccountId::new_unchecked("aml".to_string());
     ///
-    /// let aml:AML = AML::new(aml_account, MAX_RISK_LEVEL/2);
+    /// let aml: AML = AML::new(aml_account, MAX_RISK_LEVEL / 2);
     /// println!("{:?}", aml.get_aml());
     /// ```
     fn get_aml(&self) -> (&AccountId, Vec<(Category, RiskScore)>) {
@@ -108,9 +108,9 @@ impl AmlManager for AML {
     /// use near_sdk::{AccountId, collections::UnorderedMap};
     /// use hapi_near_connector::aml::*;
     ///
-    /// let aml_account :AccountId = AccountId::new_unchecked("aml".to_string());
+    /// let aml_account: AccountId = AccountId::new_unchecked("aml".to_string());
     ///
-    /// let aml:AML = AML::new(aml_account, MAX_RISK_LEVEL/2);
+    /// let aml: AML = AML::new(aml_account, MAX_RISK_LEVEL / 2);
     /// println!("{:?}", aml.get_aml_conditions());
     /// ```
     fn get_aml_conditions(&self) -> &UnorderedMap<Category, RiskScore> {
@@ -125,11 +125,11 @@ impl AmlManager for AML {
     /// use near_sdk::{AccountId, collections::UnorderedMap};
     /// use hapi_near_connector::aml::*;
     ///
-    /// let aml_account :AccountId = AccountId::new_unchecked("aml".to_string());
+    /// let aml_account: AccountId = AccountId::new_unchecked("aml".to_string());
     ///
-    /// let mut aml:AML = AML::new(aml_account, MAX_RISK_LEVEL/2);
+    /// let aml: AML = AML::new(aml_account, MAX_RISK_LEVEL / 2);
     ///
-    /// let new_aml_account :AccountId = AccountId::new_unchecked("new_aml".to_string());
+    /// let new_aml_account: AccountId = AccountId::new_unchecked("new_aml".to_string());
     /// aml.update_account_id(new_aml_account.clone());
     ///
     /// let (account_id, _) = aml.get_aml();
@@ -147,9 +147,9 @@ impl AmlManager for AML {
     /// use near_sdk::{AccountId, collections::UnorderedMap};
     /// use hapi_near_connector::aml::*;
     ///
-    /// let aml_account :AccountId = AccountId::new_unchecked("aml".to_string());
+    /// let aml_account: AccountId = AccountId::new_unchecked("aml".to_string());
     ///
-    /// let mut aml:AML = AML::new(aml_account, MAX_RISK_LEVEL/2);
+    /// let aml: AML = AML::new(aml_account, MAX_RISK_LEVEL / 2);
     ///
     /// aml.update_category(Category::Scam, 6);
     ///
@@ -172,9 +172,9 @@ impl AmlManager for AML {
     /// use near_sdk::{AccountId, collections::UnorderedMap};
     /// use hapi_near_connector::aml::*;
     ///
-    /// let aml_account :AccountId = AccountId::new_unchecked("aml".to_string());
+    /// let aml_account: AccountId = AccountId::new_unchecked("aml".to_string());
     ///
-    /// let mut aml:AML = AML::new(aml_account, MAX_RISK_LEVEL/2);
+    /// let aml: AML = AML::new(aml_account, MAX_RISK_LEVEL / 2);
     ///
     /// aml.update_category(Category::Scam, 6);
     /// aml.remove_category(Category::Scam);

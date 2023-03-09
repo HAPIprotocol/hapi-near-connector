@@ -32,19 +32,15 @@ impl AML {
     /// This method returns true if the address is risky or false if not
     pub fn check_risk(&self, category_risk: CategoryRisk) -> bool {
         let (category, risk) = category_risk;
-        let mut is_risky = false;
-        if category != Category::None {
-            let accepted_risk = match self.aml_conditions.get(&category) {
-                Some(risk) => risk,
-                None => self
-                    .aml_conditions
-                    .get(&Category::All)
-                    .expect("ERR_NO_DEFAULT_CATEGORY"),
-            };
 
-            is_risky = risk > accepted_risk;
+        if category != Category::None {
+            risk > match self.aml_conditions.get(&category) {
+                Some(accepted_risk) => accepted_risk,
+                None => self.aml_conditions.get(&Category::All).unwrap_or_default(), // We do not want to panic here!
+            }
+        } else {
+            false
         }
-        is_risky
     }
 
     pub fn get_account(&self) -> AccountId {
