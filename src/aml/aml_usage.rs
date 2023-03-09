@@ -29,6 +29,20 @@ impl AML {
         }
     }
 
+    /// This method returns true if the address is risky or false if not
+    pub fn check_risk(&self, category_risk: CategoryRisk) -> bool {
+        let (category, risk) = category_risk;
+
+        if category != Category::None {
+            risk > match self.aml_conditions.get(&category) {
+                Some(accepted_risk) => accepted_risk,
+                None => self.aml_conditions.get(&Category::All).unwrap_or_default(), // We do not want to panic here!
+            }
+        } else {
+            false
+        }
+    }
+
     pub fn get_account(&self) -> AccountId {
         self.account_id.clone()
     }
