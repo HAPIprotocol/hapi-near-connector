@@ -4,7 +4,7 @@
 
 # HAPI NEAR Proxy
 
-It is a proxy [contract](https://github.com/HAPIprotocol/near-proxy-contract) used for replicating data from [HAPI Protocol] protocol main contract on the NEAR blockchain.
+It is a proxy [contract](https://github.com/HAPIprotocol/near-proxy-contract) used for replicating data from [HAPI Protocol] main contract on the NEAR blockchain.
 
 Address of the contract on the **testnet**
 
@@ -172,7 +172,7 @@ impl ExtContract for Contract {
 }
 ```
 
-After that, your contract can already work with HAPI Protocol.
+After that,your contract is ready to work with HAPI Protocol.
 
 If you need to change the accepted risk level for *All* categories or add a new one, use *update_category*.
 
@@ -218,7 +218,7 @@ impl Migrations for Contract {
 
         let mut aml = AML::new(aml_account_id, MAX_RISK_LEVEL / 2);
 
-        // if you doesn't plan to add categories often you can do it right away
+        // if you don't plan to modify categories often you can do it right away
         aml.update_category(Category::Exchange, 4);
 
         Self {
